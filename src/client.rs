@@ -2627,6 +2627,11 @@ impl LoginConfigHandler {
         };
         let mut display_name = get_builtin_option("display-name");
         if display_name.is_empty() {
+            // Check user-configured display name from Desktop settings
+            display_name = crate::ui_interface::get_option("display-name");
+        }
+        if display_name.is_empty() {
+            // Check user_info from local config
             display_name =
                 serde_json::from_str::<serde_json::Value>(&LocalConfig::get_option("user_info"))
                     .map(|x| {
