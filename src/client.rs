@@ -2625,7 +2625,7 @@ impl LoginConfigHandler {
         } else {
             (my_id, self.id.clone())
         };
-        let mut display_name = get_builtin_option(keys::OPTION_DISPLAY_NAME);
+        let mut display_name = get_builtin_option("display-name");
         if display_name.is_empty() {
             display_name =
                 serde_json::from_str::<serde_json::Value>(&LocalConfig::get_option("user_info"))

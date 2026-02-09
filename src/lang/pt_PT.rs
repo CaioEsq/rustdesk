@@ -736,5 +736,7 @@ pub static ref T: std::collections::HashMap<&'static str, &'static str> =
         ("rel-mouse-lock-failed-tip", ""),
         ("rel-mouse-exit-{}-tip", ""),
         ("rel-mouse-permission-lost-tip", ""),
+        ("Display Name", "Nome de Apresentação"),
+        ("display_name_tip", "Insira o seu nome de apresentação para aparecer ao conectar"),
     ].iter().cloned().collect();
 }

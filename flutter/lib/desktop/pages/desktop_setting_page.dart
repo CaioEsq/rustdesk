@@ -417,6 +417,7 @@ class _GeneralState extends State<_General> {
         if (!isWeb) service(),
         theme(),
         _Card(title: 'Language', children: [language()]),
+        displayName(),
         if (!isWeb) hwcodec(),
         if (!isWeb) audio(context),
         if (!isWeb) record(context),
@@ -786,6 +787,39 @@ class _GeneralState extends State<_General> {
         enabled: !isOptFixed,
       ).marginOnly(left: _kContentHMargin);
     });
+  }
+
+  Widget displayName() {
+    final TextEditingController controller = TextEditingController();
+    final isOptFixed = isOptionFixed(kOptionDisplayName);
+
+    return _Card(title: 'Display Name', children: [
+      futureBuilder(
+        future: () async {
+          return await bind.mainGetOption(key: kOptionDisplayName);
+        }(),
+        hasData: (data) {
+          final currentValue = data as String;
+          controller.text = currentValue;
+
+          return TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: translate('display_name_tip'),
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 8,
+              ),
+            ),
+            enabled: !isOptFixed,
+            onChanged: (value) async {
+              await bind.mainSetOption(key: kOptionDisplayName, value: value);
+            },
+          ).marginOnly(left: _kContentHMargin);
+        },
+      ),
+    ]);
   }
 }
 
