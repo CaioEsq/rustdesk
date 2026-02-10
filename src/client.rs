@@ -2626,9 +2626,10 @@ impl LoginConfigHandler {
             (my_id, self.id.clone())
         };
         let mut display_name = get_builtin_option("display-name");
+        log::debug!("DisplayName from builtin: '{}'", display_name);
         if display_name.is_empty() {
-            // Check user-configured display name from Desktop settings
-            display_name = crate::ui_interface::get_option("display-name");
+            display_name = Config::get_option("display-name");
+            log::debug!("DisplayName from desktop settings (Config): '{}'", display_name);
         }
         if display_name.is_empty() {
             // Check user_info from local config
@@ -2641,9 +2642,11 @@ impl LoginConfigHandler {
                             .to_owned()
                     })
                     .unwrap_or_default();
+            log::debug!("DisplayName from user_info: '{}'", display_name);
         }
         if display_name.is_empty() {
             display_name = crate::username();
+            log::debug!("DisplayName from system username: '{}'", display_name);
         }
         let display_name = display_name
             .split_whitespace()
@@ -2661,6 +2664,7 @@ impl LoginConfigHandler {
             })
             .collect::<Vec<_>>()
             .join(" ");
+        log::info!("LoginRequest display_name (my_name): '{}'", display_name);
         #[cfg(not(target_os = "android"))]
         let my_platform = hbb_common::whoami::platform().to_string();
         #[cfg(target_os = "android")]

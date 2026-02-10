@@ -443,6 +443,7 @@ pub fn set_option(key: String, value: String) {
             options.insert(key.clone(), value.clone());
         }
         ipc::set_options(options.clone()).ok();
+        Config::set_option(key, value);
     }
     #[cfg(any(target_os = "android", target_os = "ios"))]
     {
